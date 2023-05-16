@@ -14,13 +14,16 @@ A React.js front end application for users to input and track their gratuity bas
 * React.js
 * React Router
 * VS Code
-* Firebase | Firestore
 * CSS
 * JSX
+* Tailwind
 
 <!-- ## Screen sample:
 ![screenshot](SurrealistDreams.png) -->
 
+## Initial Component Wireframe
+
+![initialcomponentwireframe](./src/img/InitialComponentWireframe.png)
 ## Available Scripts
 
 In the project directory, you can run:
