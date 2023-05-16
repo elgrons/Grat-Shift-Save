@@ -1,12 +1,18 @@
 import ".././App.css";
+import React from "react";
+import './App.css';
+import './styles.css';
+import Header from "./Header";
+import TipControl from "./TipControl";
 
 function App() {
   return (
+    <React.Fragment>
     <div className="App">
-      <header className="App-header">
-        <h1 className="text-3xl font-bold underline">Hello world!</h1>
-      </header>
+      <Header />
+        <TipControl />
     </div>
+    </React.Fragment>
   );
 }
 
