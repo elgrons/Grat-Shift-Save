@@ -1,17 +1,20 @@
 import ".././App.css";
 import React from "react";
-import './App.css';
-import './styles.css';
+import './../App.css';
 import Header from "./Header";
 import TipControl from "./TipControl";
+import SignIn from "./LogIn";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
     <React.Fragment>
-    <div className="App">
-      <Header />
-        <TipControl />
-    </div>
+    <Header />
+    <Routes>
+      <Route path="/" element={<TipControl />} />
+      <Route path="/sign-in" element={<SignIn />} />
+      <Route path="/register" element={<SignIn />} />
+    </Routes>
     </React.Fragment>
   );
 }
