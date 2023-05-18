@@ -12,7 +12,7 @@ function Header(props) {
             <Link to="/">Home</Link>
           </li>
           <li>
-            <Link to="/login">Sign In</Link>
+            <Link to="/Login">Sign In</Link>
           </li>
         </ul>
       </React.Fragment>

@@ -28,7 +28,7 @@ function TipForm(props) {
           name="shiftDate"
           defaultValue={props.type === "edit" ? props.tip.shiftDate : ""}
         />
-        <button type="submit">{props.buttonText}</button>
+        <button type="submit" buttonText="Submit">{props.buttonText}</button>
       </form>
     </React.Fragment>
   );

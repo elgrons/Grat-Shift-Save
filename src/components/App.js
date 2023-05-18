@@ -12,7 +12,7 @@ function App() {
     <Header />
     <Routes>
       <Route path="/" element={<TipControl />} />
-      <Route path="/sign-in" element={<SignIn />} />
+      <Route path="/login" element={<SignIn />} />
       <Route path="/register" element={<SignIn />} />
     </Routes>
     </React.Fragment>

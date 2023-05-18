@@ -9,6 +9,8 @@ function SignIn() {
   const [signInSuccess, setSignInSuccess] = useState(null);
   const [signOutSuccess, setSignOutSuccess] = useState(null);
 
+  // let domain = `https://grat-shift-save-api.azurewebsites.net/api/${register}${login}`;
+
   function doRegister(event) {
     event.preventDefault();
     const username = event.target.username.value;
@@ -16,7 +18,6 @@ function SignIn() {
     const password = event.target.password.value;
     const registerPayload = { username, email, password };
 
-    // Make an API request to register the user
     axios
       .post("https://grat-shift-save-api.azurewebsites.net/api/register", registerPayload)
       .then((response) => {
@@ -44,7 +45,6 @@ function SignIn() {
     const password = event.target.password.value;
     const loginPayload = { username, email, password };
 
-    // Make an API request to authenticate the user
     axios
       .post("https://grat-shift-save-api.azurewebsites.net/api/login", loginPayload)
       .then((response) => {

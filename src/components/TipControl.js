@@ -17,16 +17,35 @@ function TipControl() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch all GratShifts
-    axios
-      .get("https://grat-shift-save-api.azurewebsites.net/api/GratShift/")
-      .then((response) => {
-        setMainTipList(response.data);
-      })
-      .catch((error) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      axios
+        .get("https://your-api-url/check-auth")
+        .then((response) => {
+          setCurrentUser(response.data.user);
+        })
+        .catch((error) => {
         setError(error.message);
       });
+    }
   }, []);
+
+  useEffect(() => {
+    // Fetch all GratShifts
+    if (currentUser) {
+    axios
+    .get(`https://grat-shift-save-api.azurewebsites.net/api/GratShift/account/${currentUser.userId}`)
+    .then((response) => {
+    setMainTipList(response.data);
+    })
+    .catch((error) => {
+    setError(error.message);
+    });
+    }
+    }, [currentUser]);
+    
+    
 
   const handleClickEdit = () => {
     setEditing(true);
@@ -35,19 +54,17 @@ function TipControl() {
   const handleEditingTipInList = (tipToEdit) => {
     // Update GratShift record
     axios
-      .put(
-        `https://grat-shift-save-api.azurewebsites.net/api/GratShift/${tipToEdit.id}`,
-        tipToEdit
-      )
-      .then((response) => {
-        setEditing(false);
-        setSelectedTip(null);
-        navigate("/");
-      })
-      .catch((error) => {
-        setError(error.message);
-      });
-  };
+    .put(`https://grat-shift-save-api.azurewebsites.net/api/GratShift/${tipToEdit.id},
+    tipToEdit`)
+    .then((response) => {
+    setEditing(false);
+    setSelectedTip(null);
+    navigate("/");
+    })
+    .catch((error) => {
+    setError(error.message);
+    });
+    };
 
   const handleClickDelete = (tipId) => {
     // Delete GratShift record
@@ -90,13 +107,17 @@ function TipControl() {
   return (
     <>
       <div id="fancy-bg"></div>
-      <Header />
-      {currentUser ? (
+      <Header 
+        currentUser={currentUser} 
+        handleSettingCurrentUser={handleSettingCurrentUser}
+      />
         <Routes>
           <Route
             path="/"
             element={
               <TipList
+                currentUser={currentUser} 
+                handleSettingCurrentUser={handleSettingCurrentUser}
                 tipList={mainTipList}
                 handleClickEdit={handleClickEdit}
                 handleClickDelete={handleClickDelete}
@@ -107,7 +128,8 @@ function TipControl() {
           <Route
             path="/add-tip"
             element={
-              <TipForm handleAddingNewTipToList={handleAddingNewTipToList} />
+              <TipForm handleAddingNewTipToList={handleAddingNewTipToList}
+              currentUser={currentUser} />
             }
           />
           <Route
@@ -116,14 +138,14 @@ function TipControl() {
               <EditTip
                 tipToEdit={selectedTip}
                 handleEditingTipInList={handleEditingTipInList}
+                currentUser={currentUser}
               />
             }
           />
         </Routes>
-      ) : (
-        <LogIn handleSettingCurrentUser={handleSettingCurrentUser} />
-      )}
-      {error && <p>{error}</p>}
+        <LogIn handleSettingCurrentUser={handleSettingCurrentUser}
+        currentUser={currentUser} />
+      {/* {error && <p>{error}</p>} */}
     </>
   );
 }

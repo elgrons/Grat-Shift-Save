@@ -2,8 +2,6 @@ import React from "react";
 import Tip from './Tip';
 import PropTypes from "prop-types";
 
-
-
 function TipList(props) {
   console.log('TipList props.tipList is');
   console.table(props.tipList);
