@@ -1,36 +1,21 @@
+import { auth } from "./../firebase.js";
 import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 
-function SignIn() {
-
-  const navigate = useNavigate();
+function LogIn() {
   const [signUpSuccess, setSignUpSuccess] = useState(null);
   const [signInSuccess, setSignInSuccess] = useState(null);
   const [signOutSuccess, setSignOutSuccess] = useState(null);
 
-  // let domain = `https://grat-shift-save-api.azurewebsites.net/api/${register}${login}`;
-
-  function doRegister(event) {
+  function doSignUp(event) {
     event.preventDefault();
     const username = event.target.username.value;
     const email = event.target.email.value;
     const password = event.target.password.value;
-    const registerPayload = { username, email, password };
-
-    axios
-      .post("https://grat-shift-save-api.azurewebsites.net/api/register", registerPayload)
-      .then((response) => {
-        const token = response.data.authorizationToken;
-
-        localStorage.setItem("token", token);
-
-        if (token) {
-          axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        }
-
+    createUserWithEmailAndPassword(auth, username, email, password)
+      .then((userCredential) => {
         setSignUpSuccess(
-          `You've successfully signed up, ${email}!`
+          `You've successfully signed up, ${userCredential.user.email}!`
         );
       })
       .catch((error) => {
@@ -38,43 +23,34 @@ function SignIn() {
       });
   }
 
-  function doLogIn(event) {
+  function doSignIn(event) {
     event.preventDefault();
     const username = event.target.username.value;
-    const email = event.target.email.value;
-    const password = event.target.password.value;
-    const loginPayload = { username, email, password };
-
-    axios
-      .post("https://grat-shift-save-api.azurewebsites.net/api/login", loginPayload)
-      .then((response) => {
-        const token = response.data.token;
-
-        localStorage.setItem("token", token);
-
-        if (token) {
-          axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        }
-
-        setSignInSuccess(`You've successfully signed in as ${email}!`);
-        navigate("/");
+    const email = event.target.signinEmail.value;
+    const password = event.target.signinPassword.value;
+    signInWithEmailAndPassword(auth, username, email, password)
+      .then((userCredential) => {
+        setSignInSuccess(`You've successfully signed in as ${userCredential.user.email}!`)
       })
       .catch((error) => {
-        setSignInSuccess(`There was an error signing in: ${error.message}!`);
+        setSignInSuccess(`There was an error signing in: ${error.message}!`)
       });
   }
 
   function doSignOut() {
-    localStorage.removeItem("token");
-    delete axios.defaults.headers.common["Authorization"];
-    setSignOutSuccess("You have successfully signed out!");
+    signOut(auth)
+      .then(function() {
+        setSignOutSuccess("You have successfully signed out!");
+      }).catch(function(error) {
+        setSignOutSuccess(`There was an error signing out: ${error.message}!`);
+      });
   }
 
   return (
     <React.Fragment>
       <h1>Sign up</h1>
       {signUpSuccess}
-      <form onSubmit={doRegister}>
+      <form onSubmit={doSignUp}>
         <input type="text" name="username" placeholder="username" />
         <input type="text" name="email" placeholder="email" />
         <input type="password" name="password" placeholder="Password" />
@@ -82,10 +58,10 @@ function SignIn() {
       </form>
       <h1>Sign In</h1>
       {signInSuccess}
-      <form onSubmit={doLogIn}>
+      <form onSubmit={doSignIn}>
         <input type="text" name="username" placeholder="username" />
-        <input type="text" name="email" placeholder="email" />
-        <input type="password" name="password" placeholder="Password" />
+        <input type="text" name="signinEmail" placeholder="email" />
+        <input type="password" name="signinPassword" placeholder="Password" />
         <button type="submit">Sign in</button>
       </form>
       <h1>Sign Out</h1>
@@ -96,4 +72,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default LogIn

@@ -3,21 +3,21 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 function Header(props) {
-  if (!props.currentUser) {
-    return (
-      <React.Fragment>
-        <div id="title-area">Grat Shift Save</div>
-        <ul className="link-area">
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/Login">Sign In</Link>
-          </li>
-        </ul>
-      </React.Fragment>
-    );
-  } else {
+  // if (!props.currentUser) {
+  //   return (
+  //     <React.Fragment>
+  //       <div id="title-area">Grat Shift Save</div>
+  //       <ul className="link-area">
+  //         <li>
+  //           <Link to="/">Home</Link>
+  //         </li>
+  //         <li>
+  //           <Link to="/Login">Sign In</Link>
+  //         </li>
+  //       </ul>
+  //     </React.Fragment>
+  //   );
+  // } else {
     return (
       <React.Fragment>
         <div id="title-area">Grat Shift Save</div>
@@ -37,7 +37,7 @@ function Header(props) {
       </React.Fragment>
     );
   }
-}
+// }
 
 Header.propTypes = {
   currentUser: PropTypes.object,
