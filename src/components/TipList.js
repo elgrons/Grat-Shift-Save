@@ -2,10 +2,8 @@ import React from "react";
 import Tip from './Tip';
 import PropTypes from "prop-types";
 
-
-
 function TipList(props) {
-  console.log('TipList props.tipList is');
+  console.log('TipList props.tipList!! ');
   console.table(props.tipList);
   return (
     <React.Fragment>
@@ -21,7 +19,6 @@ function TipList(props) {
           />
         )}
       </ul>
-      
     </React.Fragment>
   );
 }

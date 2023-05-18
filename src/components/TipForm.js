@@ -1,44 +1,38 @@
 import React from "react";
 import PropTypes from "prop-types";
+import ReusableForm from "./ReusableForm";
+
 
 function TipForm(props) {
+
+  function handleNewSubmission(event) {
+    event.preventDefault();
+    props.onNewTipCreation({
+      cashTip: event.target.cashTip.value,
+      creditTip: event.target.creditTip.value,
+      shiftSales: event.target.shiftSales.value,
+      shiftDate: event.target.shiftDate.value,
+      userId: props.uid,
+      email: props.email,
+    });
+  }
+
   return (
-    <React.Fragment>
-      <form onSubmit={props.formSubmissionHandler}>
-        <input
-          type="number"
-          name="cashTip"
-          defaultValue={props.type === "edit" ? props.tip.cashTip : ""}
-          placeholder={props.type !== "edit" ? "0" : ""}
-        />
-        <input
-          type="number"
-          name="creditTip"
-          defaultValue={props.type === "edit" ? props.tip.creditTip : ""}
-          placeholder={props.type !== "edit" ? "0" : ""}
-        />
-        <input
-          type="number"
-          name="shiftSales"
-          defaultValue={props.type === "edit" ? props.tip.shiftSales : ""}
-          placeholder={props.type !== "edit" ? "0" : ""}
-        />
-        <textarea
-          type="date"
-          name="shiftDate"
-          defaultValue={props.type === "edit" ? props.tip.shiftDate : ""}
-        />
-        <button type="submit">{props.buttonText}</button>
-      </form>
-    </React.Fragment>
+    <>
+    <ReusableForm
+        formSubmissionHandler={handleNewSubmission}
+        buttonText="Submit" />
+    </>
   );
 }
 
 TipForm.propTypes = {
-  formSubmissionHandler: PropTypes.func,
+  onNewTipCreation: PropTypes.func,
   buttonText: PropTypes.string,
   tip: PropTypes.object,
   type: PropTypes.string,
+  userId: PropTypes.string,
+  email: PropTypes.string
 };
 
 export default TipForm;

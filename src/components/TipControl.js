@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import LogIn from "./LogIn";
-import Header from "./Header";
+import PropTypes from "prop-types";
 import TipList from "./TipList";
 import TipForm from "./TipForm";
 import EditTip from "./EditTip";
+// import Header from "./Header";
 import { Routes, Route } from "react-router-dom";
 
-function TipControl() {
+function TipControl(props) {
   const [mainTipList, setMainTipList] = useState([]);
   const [selectedTip, setSelectedTip] = useState(null);
   const [editing, setEditing] = useState(false);
@@ -63,9 +64,10 @@ function TipControl() {
       });
   };
 
-  const handleAddingNewTipToList = (newTipData) => {
+  async function handleAddingNewTipToList(newTipData) {
+    console.log('handleAddingNewTipToList newTipData', newTipData)
     // Create new GratShift record
-    axios
+      await axios
       .post(
         "https://grat-shift-save-api.azurewebsites.net/api/GratShift/",
         newTipData
@@ -83,20 +85,22 @@ function TipControl() {
     setSelectedTip(selection);
   };
 
-  function handleSettingCurrentUser(userObj) {
-    setCurrentUser(userObj);
-  }
+  // const handleSettingCurrentUser = (user) => {
+  //   setCurrentUser(user);
+  // }
 
   return (
     <>
-      <div id="fancy-bg"></div>
-      <Header />
-      {currentUser ? (
+      {/* <div id="fancy-bg"></div> */}
+      {/* <Header /> */}
+      {/* {currentUser ? ( */}
         <Routes>
           <Route
             path="/"
             element={
               <TipList
+                // currentUser={currentUser}
+                // handleSettingCurrentUser={handleSettingCurrentUser}
                 tipList={mainTipList}
                 handleClickEdit={handleClickEdit}
                 handleClickDelete={handleClickDelete}
@@ -104,28 +108,34 @@ function TipControl() {
               />
             }
           />
+          <Route path="/add-new" 
+          element={
+          <TipForm 
+          onNewTipCreation={handleAddingNewTipToList} />} />
           <Route
-            path="/add-tip"
-            element={
-              <TipForm handleAddingNewTipToList={handleAddingNewTipToList} />
-            }
-          />
-          <Route
-            path="/edit-tip/:id"
+            path="/edit-tip"
             element={
               <EditTip
+                // currentUser={currentUser}
+                // handleSettingCurrentUser={handleSettingCurrentUser}
                 tipToEdit={selectedTip}
                 handleEditingTipInList={handleEditingTipInList}
               />
             }
           />
         </Routes>
-      ) : (
-        <LogIn handleSettingCurrentUser={handleSettingCurrentUser} />
-      )}
-      {error && <p>{error}</p>}
+      {/* ) : ( */}
+        <LogIn 
+        // currentUser={currentUser}
+        //   handleSettingCurrentUser={handleSettingCurrentUser}
+      />
+      {/* )} */}
     </>
   );
 }
+
+TipControl.propTypes = {
+  currentUser: PropTypes.object
+};
 
 export default TipControl;
