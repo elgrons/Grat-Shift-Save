@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
-function LogIn(props) {
+function Login(props) {
 
   const navigate = useNavigate();
   const [signUpSuccess, setSignUpSuccess] = useState(null);
@@ -92,8 +92,8 @@ function LogIn(props) {
   );
 }
 
-LogIn.propTypes = {
+Login.propTypes = {
   setCurrentUser: PropTypes.func
 };
 
-export default LogIn;
+export default Login;

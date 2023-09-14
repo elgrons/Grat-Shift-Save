@@ -96,7 +96,7 @@ function TipControl(props) {
       {/* {currentUser ? ( */}
         <Routes>
           <Route
-            path="/"
+            path="/tip-list"
             element={
               <TipList
                 // currentUser={currentUser}

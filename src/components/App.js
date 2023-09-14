@@ -7,7 +7,6 @@ import SignIn from "./LogIn";
 import TipForm from "./TipForm";
 import { Routes, Route } from "react-router-dom";
 
-
 function App() {
 
   const [currentUser, setCurrentUser] = useState(null);
@@ -28,7 +27,7 @@ function App() {
       setCurrentUser={handleSettingCurrentUser}/>}/>
       <Route path="/register" element={<SignIn 
       setCurrentUser={handleSettingCurrentUser}/>}/>
-      <Route path="/add-new" element={<TipForm 
+      <Route path="/" element={<TipControl
       setCurrentUser={handleSettingCurrentUser}/>}/>
     </Routes>
     </React.Fragment>
