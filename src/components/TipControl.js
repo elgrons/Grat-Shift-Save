@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import LogIn from "./LogIn";
 import PropTypes from "prop-types";
 import TipList from "./TipList";
 import TipForm from "./TipForm";
